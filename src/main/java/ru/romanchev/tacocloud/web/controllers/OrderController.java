@@ -1,4 +1,4 @@
-package ru.romanchev.tacocloud.web;
+package ru.romanchev.tacocloud.web.controllers;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import ru.romanchev.tacocloud.web.TacoOrder;
 
 @Controller
 @RequestMapping("/orders")
