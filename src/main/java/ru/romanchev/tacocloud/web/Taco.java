@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Data
@@ -19,5 +20,9 @@ public class Taco {
 
     @NotNull
     @Size(min = 1, message = "Вы должны добавить хотя бы 1 ингредиент")
-    private List<Ingredient> ingredients;
+    private List<IngredientRef> ingredients = new ArrayList<>();
+
+    public void addIngredient(Ingredient taco) {
+        this.ingredients.add(new IngredientRef(taco.getId()));
+    }
 }

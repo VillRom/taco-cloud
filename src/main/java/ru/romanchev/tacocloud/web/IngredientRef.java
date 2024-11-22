@@ -3,7 +3,7 @@ package ru.romanchev.tacocloud.web;
 import lombok.Data;
 
 @Data
-public class IngredientBef {
+public class IngredientRef {
 
     private final String ingredient;
 }
