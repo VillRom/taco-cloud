@@ -14,6 +14,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import ru.romanchev.tacocloud.web.TacoOrder;
 import ru.romanchev.tacocloud.web.repository.OrderRepository;
 
+import java.util.Date;
+
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
@@ -34,6 +36,7 @@ public class OrderController {
     @PostMapping
     public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus status) {
         if (errors.hasErrors()) return "orderForm";
+        order.setPlacedAt(new Date());
         orderRepository.save(order);
         status.setComplete();
         log.info("Созданный заказ: {}", order);
