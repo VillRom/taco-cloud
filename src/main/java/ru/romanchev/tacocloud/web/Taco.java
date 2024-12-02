@@ -1,32 +1,33 @@
 package ru.romanchev.tacocloud.web;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
 @Data
-@Table
+@Table("tacos")
 public class Taco {
 
-    @Id
-    private Long id;
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
 
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private Date createdAt;
 
     @NotNull
     @Size(min = 5, message = "Имя не может быть короче 5 символов")
     private String name;
 
-    @NotNull
+    @Column("ingredients")
     @Size(min = 1, message = "Вы должны добавить хотя бы 1 ингредиент")
-    private List<IngredientRef> ingredients = new ArrayList<>();
+    private List<IngredientUDT> ingredients = new ArrayList<>();
 
-    public void addIngredient(Ingredient taco) {
-        this.ingredients.add(new IngredientRef(taco.getId()));
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(TacoUDRUtils.toIngredientUDT(ingredient));
     }
 }

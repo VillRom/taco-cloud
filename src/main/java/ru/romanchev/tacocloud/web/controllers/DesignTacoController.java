@@ -1,6 +1,5 @@
 package ru.romanchev.tacocloud.web.controllers;
 
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import ru.romanchev.tacocloud.web.Taco;
 import ru.romanchev.tacocloud.web.TacoOrder;
+import ru.romanchev.tacocloud.web.TacoUDT;
 import ru.romanchev.tacocloud.web.repository.IngredientRepository;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class DesignTacoController {
     @PostMapping
     public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder order) {
         if (errors.hasErrors()) return "design";
-        order.addTaco(taco);
+        order.addTaco(new TacoUDT(taco.getName(), taco.getIngredients()));
         log.info("Создание Тако: {}", taco);
         return "redirect:/orders/current";
     }

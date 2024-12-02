@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Login</h1>
+<img th:src="@{/images/taco.jpg}"/>
+
+<div th:if="${error}">
+    Unable to login. Check your username and password.
+</div>
+
+<p>New here? Click
+    <a th:href="@{/register}">here</a> to register.</p>
+<p><a th:href="@{/oauth2/authorization/google}">Авторизоваться через Google</a></p>
+
+<!-- tag::thAction[] -->
+<form method="POST" th:action="@{/login}" id="loginForm">
+    <!-- end::thAction[] -->
+    <label for="username">Username: </label>
+    <input type="text" name="username" id="username" /><br/>
+
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password" /><br/>
+
+    <input type="submit" value="Login"/>
+</form>
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>
