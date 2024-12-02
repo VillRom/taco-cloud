@@ -1,23 +1,20 @@
 package ru.romanchev.tacocloud.web;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.CreditCardNumber;
 
-import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@Entity
-public class TacoOrder {
+@Table("orders")
+public class TacoOrder implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private static final long serialVersionUID = 1;
+
+    @PrimaryKey
+    private UUID id;
 
     private Date placedAt;
 
@@ -46,10 +43,10 @@ public class TacoOrder {
     @Digits(integer = 3, fraction = 0, message = "Не валидный код CVV")
     private String ccCVV;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Taco> tacos = new ArrayList<>();
+    @Column("tacos")
+    private List<TacoUDT> tacos = new ArrayList<>();
 
-    public void addTaco(Taco taco) {
+    public void addTaco(TacoUDT taco) {
         this.tacos.add(taco);
     }
 }
