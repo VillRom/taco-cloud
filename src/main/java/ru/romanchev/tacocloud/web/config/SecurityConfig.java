@@ -30,12 +30,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http.authorizeRequests()
-                .antMatchers("/design", "/orders").hasRole("USER")
-                .antMatchers("/", "/**").permitAll()
+                .mvcMatchers("/design", "/orders").hasRole("USER")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .and()
+                .csrf()
+                .disable()
                 .build();
     }
 }
