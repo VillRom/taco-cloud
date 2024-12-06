@@ -10,11 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import ru.romanchev.tacocloud.web.Taco;
 import ru.romanchev.tacocloud.web.TacoOrder;
-import ru.romanchev.tacocloud.web.TacoUDT;
+import ru.romanchev.tacocloud.web.User;
 import ru.romanchev.tacocloud.web.repository.IngredientRepository;
+import ru.romanchev.tacocloud.web.repository.TacoRepository;
+import ru.romanchev.tacocloud.web.repository.UserRepository;
 
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +27,15 @@ import java.util.stream.Collectors;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+
+    private final TacoRepository tacoRepo;
+
+    private final UserRepository userRepo;
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepo, UserRepository userRepo) {
         this.ingredientRepository = ingredientRepository;
+        this.tacoRepo = tacoRepo;
+        this.userRepo = userRepo;
     }
 
     @ModelAttribute
@@ -49,6 +57,12 @@ public class DesignTacoController {
         return new Taco();
     }
 
+    @ModelAttribute(name = "user")
+    public User user(Principal principal) {
+        String username = principal.getName();
+        return userRepo.findByUsername(username);
+    }
+
     @GetMapping
     public String showDesignFrom() {
         return "design";
@@ -57,7 +71,8 @@ public class DesignTacoController {
     @PostMapping
     public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder order) {
         if (errors.hasErrors()) return "design";
-        order.addTaco(new TacoUDT(taco.getName(), taco.getIngredients()));
+        tacoRepo.save(taco);
+        order.addTaco(taco);
         log.info("Создание Тако: {}", taco);
         return "redirect:/orders/current";
     }

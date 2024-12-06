@@ -11,8 +11,8 @@ import ru.romanchev.tacocloud.web.repository.UserRepository;
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;

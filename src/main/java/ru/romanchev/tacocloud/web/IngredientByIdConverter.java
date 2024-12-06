@@ -9,7 +9,7 @@ import ru.romanchev.tacocloud.web.repository.IngredientRepository;
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
-    private IngredientRepository ingredientRepository;
+    private final IngredientRepository ingredientRepository;
 
     @Autowired
     public IngredientByIdConverter(IngredientRepository ingredientRepository) {

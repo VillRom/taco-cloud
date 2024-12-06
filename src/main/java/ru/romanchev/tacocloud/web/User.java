@@ -1,7 +1,7 @@
 package ru.romanchev.tacocloud.web;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 public class User implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -37,7 +35,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
