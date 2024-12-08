@@ -1,9 +1,9 @@
 package ru.romanchev.tacocloud.web.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.romanchev.tacocloud.web.Taco;
 
 public interface TacoRepository
-        extends CrudRepository<Taco, Long> {
+        extends PagingAndSortingRepository<Taco, Long> {
 
 }
